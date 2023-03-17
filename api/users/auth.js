@@ -12,10 +12,12 @@ router.get(
 router.get(
     "/callback",
     passport.authenticate("discord", {
-        failureRedirect: process.env.DOMAIN + "/access-denied",
+        failureRedirect: "/",
     }),
     (req, res) => {
-        res.redirect("/");
+        if (!req.isAuthenticated())
+            return res.redirect(`${process.env.DOMAIN}/denied`);
+        res.redirect(`${process.env.DOMAIN}/`);
     }
 );
 

@@ -56,12 +56,14 @@ export default (passport) => {
     );
 
     passport.serializeUser((user, done) => {
+        console.log("Serialized");
         done(null, user);
     });
 
-    passport.deserializeUser((user, done) => {
-        User.findById(user.id)
+    passport.deserializeUser((id, done) => {
+        User.findById(id)
             .then((user) => {
+                console.log("Deserialized");
                 done(null, user);
             })
             .catch((err) => {

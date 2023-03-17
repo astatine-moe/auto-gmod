@@ -16,17 +16,16 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
     //routes
     app.use("/auth", auth);
     app.get("/", (req, res) => {
-        if (req.isAuthenticated()) {
-            res.send(req.user);
-        } else {
-            res.send("Not Authenticated");
-        }
+        res.redirect(`/`);
+    });
+    app.get("/user", (req, res) => {
+        res.send(`${req.isAuthenticated()}`);
     });
     //error handlers
 
     http.createServer(app).listen(process.env.PORT, () => {
         console.log(
-            `Server is running on port http://127.0.0.1:${process.env.PORT}`
+            `Server is running on port http://127.0.0.1:${process.env.PORT} (${process.env.DOMAIN})`
         );
         console.log(listEndpoints(app));
     });
